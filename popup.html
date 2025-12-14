@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Email Word Cloud</title>
+  <style>
+    body {
+      width: 600px;
+      height: 500px;
+      margin: 0;
+      padding: 10px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f5f5f5;
+    }
+    
+    #container {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      height: calc(100% - 40px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    #header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      color: #333;
+    }
+    
+    #reanalyzeBtn {
+      padding: 6px 12px;
+      background: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.2s;
+    }
+    
+    #reanalyzeBtn:hover {
+      background: #1565c0;
+    }
+    
+    #reanalyzeBtn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    
+    #loading {
+      text-align: center;
+      padding: 50px;
+      color: #666;
+    }
+    
+    #wordcloud {
+      flex: 1;
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    
+    .word {
+      display: inline-block;
+      margin: 5px;
+      padding: 3px 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 4px;
+      line-height: 1.4;
+    }
+    
+    .word:hover {
+      background: #e3f2fd;
+      transform: scale(1.1);
+    }
+    
+    #stats {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #e0e0e0;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+    }
+    
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    #error {
+      color: #d32f2f;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="header">
+      <h1>Email Word Cloud</h1>
+      <button id="reanalyzeBtn" style="display: none;">Re-analyze</button>
+    </div>
+    <div id="loading">
+      <div class="spinner"></div>
+      <p>Analyzing your emails...</p>
+    </div>
+    <div id="wordcloud" style="display: none;"></div>
+    <div id="stats" style="display: none;"></div>
+    <div id="error" style="display: none;"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
