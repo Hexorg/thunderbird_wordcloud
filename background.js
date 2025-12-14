@@ -130,6 +130,23 @@ async function processMessagesInFolder(folder, wordCounts, userInfo) {
           if (senderEmail && !userInfo.emails.has(senderEmail)) {
             // Add the full email address as a single "word" (skip if it's user's own email)
             wordCounts.set(senderEmail, (wordCounts.get(senderEmail) || 0) + 1);
+            
+            // Also split email and add username and domain separately
+            const emailParts = senderEmail.split('@');
+            if (emailParts.length === 2) {
+              const username = emailParts[0];
+              const domain = emailParts[1];
+              
+              // Add username (if it's longer than 2 chars)
+              if (username.length > 2) {
+                wordCounts.set(username, (wordCounts.get(username) || 0) + 1);
+              }
+              
+              // Add domain
+              if (domain.length > 2) {
+                wordCounts.set(domain, (wordCounts.get(domain) || 0) + 1);
+              }
+            }
           }
         }
       }
