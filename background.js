@@ -95,12 +95,14 @@ async function getUserInfo(accounts) {
 async function processFolder(folders, wordCounts, userInfo) {
   if (!folders) return;
 
-  const ignoreFolders = new Set(['trash', 'junk', 'drafts', 'sent', 'outbox']);
+  // Ignoring folders based on name instead of type because gmail doesn't mark `[Gmail]Trash` as type = 'trash'
+  const ignoreFolders = new Set(['trash', 'junk', 'drafts', 'sent', 'sent mail', 'spam', 'all mail', 'outbox']);
 
   for (const folder of folders) {
     // Process messages in this folder
-    if (!ignoreFolders.has(folder.type)) {
-        console.log(folder.type);
+      let names = folder.name.toLowerCase().split(']'); // split '[Gmail]Folder' to '[gmail' and 'folder'
+      const hasAny = names.some(item => ignoreFolders.has(item));
+    if (!hasAny) {
         await processMessagesInFolder(folder, wordCounts, userInfo);
     }
 
